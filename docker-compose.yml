@@ -6,7 +6,7 @@ services:
     image: alphatel:latest
     container_name: alphatel
     ports:
-      - "8443:3000"
+      - "80:3000"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
