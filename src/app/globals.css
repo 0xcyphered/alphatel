@@ -1,26 +1,257 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.9rem;
+  --bg: 250 251 252;
+  --surface: 255 255 255;
+  --fg: 15 23 42;
+  --muted: 100 116 139;
+  --border: 226 232 240;
+  --brand: 37 99 235;
+  --brand-fg: 255 255 255;
+  --brand-soft: 219 234 254;
+  --accent: 249 115 22;
+  --ring: 59 130 246;
+}
+
+.dark {
+  --bg: 2 6 23;
+  --surface: 15 23 42;
+  --fg: 241 245 249;
+  --muted: 148 163 184;
+  --border: 30 41 59;
+  --brand: 96 165 250;
+  --brand-fg: 2 6 23;
+  --brand-soft: 30 58 138;
+  --accent: 251 146 60;
+  --ring: 96 165 250;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: rgb(var(--bg));
+  --color-surface: rgb(var(--surface));
+  --color-fg: rgb(var(--fg));
+  --color-muted: rgb(var(--muted));
+  --color-border: rgb(var(--border));
+  --color-brand: rgb(var(--brand));
+  --color-brand-fg: rgb(var(--brand-fg));
+  --color-brand-soft: rgb(var(--brand-soft));
+  --color-accent: rgb(var(--accent));
+  --color-ring: rgb(var(--ring));
+  --radius-xl: var(--radius);
+  --radius-2xl: calc(var(--radius) + 0.35rem);
+  --radius-3xl: calc(var(--radius) + 0.7rem);
+  --font-sans: var(--font-vazirmatn), var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01";
+  min-height: 100dvh;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklab, rgb(var(--brand)) 30%, transparent);
+}
+
+.container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-page {
+    padding-inline: 1.5rem;
+  }
+}
+
+.card {
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--border));
+  border-radius: var(--radius-2xl);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: calc(var(--radius) - 0.15rem);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:focus-visible,
+.input:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgb(var(--ring));
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: rgb(var(--brand));
+  color: rgb(var(--brand-fg));
+  padding: 0.7rem 1.15rem;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: rgb(var(--surface));
+  color: rgb(var(--fg));
+  border: 1px solid rgb(var(--border));
+  padding: 0.7rem 1.15rem;
+}
+
+.btn-secondary:hover {
+  border-color: rgb(var(--brand));
+  color: rgb(var(--brand));
+}
+
+.btn-accent {
+  background: rgb(var(--accent));
+  color: #1c1917;
+  padding: 0.7rem 1.15rem;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: rgb(var(--fg));
+  padding: 0.55rem 0.85rem;
+}
+
+.btn-ghost:hover {
+  background: color-mix(in oklab, rgb(var(--fg)) 6%, transparent);
+}
+
+.btn-sm {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 0.9rem 1.4rem;
+  font-size: 1.05rem;
+}
+
+.input {
+  width: 100%;
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--border));
+  border-radius: calc(var(--radius) - 0.15rem);
+  padding: 0.65rem 0.9rem;
+  color: rgb(var(--fg));
+  transition: border-color 0.15s ease;
+}
+
+.input::placeholder {
+  color: rgb(var(--muted));
+}
+
+.input:focus {
+  border-color: rgb(var(--brand));
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, rgb(var(--brand)) 25%, transparent);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.text-muted {
+  color: rgb(var(--muted));
+}
+
+.gradient-brand {
+  background-image: linear-gradient(
+    135deg,
+    rgb(var(--brand)) 0%,
+    color-mix(in oklab, rgb(var(--brand)) 55%, #7c3aed) 100%
+  );
+}
+
+.gradient-hero {
+  background-image:
+    radial-gradient(1200px 500px at 10% -10%, color-mix(in oklab, rgb(var(--brand)) 35%, transparent), transparent 60%),
+    radial-gradient(900px 400px at 90% 0%, color-mix(in oklab, #7c3aed 30%, transparent), transparent 55%),
+    linear-gradient(180deg, color-mix(in oklab, rgb(var(--surface)) 80%, transparent), rgb(var(--bg)));
+}
+
+.dark .gradient-hero {
+  background-image:
+    radial-gradient(1200px 500px at 10% -10%, color-mix(in oklab, #1d4ed8 40%, transparent), transparent 60%),
+    radial-gradient(900px 400px at 90% 0%, color-mix(in oklab, #6d28d9 35%, transparent), transparent 55%),
+    linear-gradient(180deg, color-mix(in oklab, #0f172a 70%, transparent), rgb(var(--bg)));
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, rgb(var(--border)) 60%, transparent),
+    color-mix(in oklab, rgb(var(--surface)) 90%, transparent),
+    color-mix(in oklab, rgb(var(--border)) 60%, transparent)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.45s ease both;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
 }
